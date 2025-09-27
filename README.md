@@ -40,7 +40,7 @@ fan:
           {{ "off" if states('sensor.fanspeed') == 'Standby' else "on" }}
         percentage_template: >
           {% set speedperc = {'Standby': 0, 'Low': 33, 'Medium': 66, 'High': 100} %}
-          {{speedperc [states('sensor.fanspeed')]}}
+          {{ speedperc [states('sensor.fanspeed')] | int }}
         turn_on:
           service: switch.turn_on
           data:
@@ -59,9 +59,9 @@ fan:
 ```
 
 ## ESPHome Configuration
-I created a new device in Home Assistant ESPHome addon (named itho_eco_fan), and choose platform "ESP8266" and board "modemcuv2". After that, I changed the YAML of that device to look like this: 
+I created a new device in Home Assistant ESPHome addon (named itho_eco_fan), and choose platform "ESP8266" and board "nodemcuv2". After that, I changed the YAML of that device to look like this: 
 
-**DO'NT COMPILE THE SOURCE YET!** Just save the YAML config and continue!
+**DON'T COMPILE THE SOURCE YET!** Just save the YAML config and continue!
 
 ```
 esphome:
@@ -69,8 +69,10 @@ esphome:
   platform: ESP8266
   board: d1_mini_pro
   includes: 
-    - ITHO/itho/cc1101.h
-  libraries: 
+    - itho_eco_fan/itho/cc1101.h
+  libraries:
+    - SPI
+    - Ticker
     - https://github.com/jcortenbach/ESPHome_ITHO_Eco_Fan_CC1101.git
     
   #Set ID from remotes that are used, so you can identify the root of the last State change
