@@ -1,14 +1,17 @@
 /*
  * Author: Klusjesman, modified bij supersjimmie for Arduino/ESP8266
+ * Refactored as ESPHome external component
  */
 
-#ifndef __ITHOCC1101_H__
-#define __ITHOCC1101_H__
+#pragma once
 
+#include "esphome/core/component.h"
+#include "esphome/core/log.h"
 #include <stdio.h>
 #include "CC1101.h"
 #include "IthoPacket.h"
 
+namespace esphome::ithoc1101 {
 
 //pa table settings
 const uint8_t ithoPaTableSend[8] = {0x6F, 0x26, 0x2E, 0x8C, 0x87, 0xCD, 0xC7, 0xC0};
@@ -69,7 +72,7 @@ enum IthoReceiveStates
 
 
 
-class IthoCC1101 : protected CC1101
+class IthoCC1101 : public esphome::Component, protected CC1101
 {
 	private:
 		//receive
@@ -89,6 +92,11 @@ class IthoCC1101 : protected CC1101
 	public:
 		IthoCC1101(uint8_t counter = 0, uint8_t sendTries = 3);		//set initial counter value
 		~IthoCC1101();
+
+		// ESPHome component lifecycle methods
+		void setup() override;
+		void loop() override;
+		void dump_config() override;
 
 		//init
 		void init() { CC1101::init(); }											//init,reset CC1101
@@ -173,7 +181,7 @@ class IthoCC1101 : protected CC1101
 
 }; //IthoCC1101
 
+}  // namespace esphome::ithoc1101
 
 extern volatile uint32_t data1[];
 
-#endif //__ITHOCC1101_H__

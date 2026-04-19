@@ -1,0 +1,8 @@
+version: 1.0
+type: external_components
+documentation: https://github.com/supersjimmie/ESPHome_ITHO_Eco_Fan_CC1101
+dependencies:
+  - source: github://esphome/esphome
+    version: ">=2024.1.0"
+requirements:
+  - pyserial>=3.5

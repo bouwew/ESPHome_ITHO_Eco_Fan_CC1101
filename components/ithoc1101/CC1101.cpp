@@ -1,8 +1,11 @@
 /*
  * Author: Klusjesman, modified bij supersjimmie for Arduino/ESP8266
+ * Refactored as ESPHome external component
  */
 
 #include "CC1101.h"
+
+namespace esphome::ithoc1101 {
 
 // default constructor
 CC1101::CC1101()
@@ -271,3 +274,6 @@ void CC1101::sendData(CC1101Packet *packet)
 	}
   	while((MarcState != CC1101_MARCSTATE_IDLE) && (MarcState != CC1101_MARCSTATE_TXFIFO_UNDERFLOW));
 }
+
+}  // namespace esphome::ithoc1101
+

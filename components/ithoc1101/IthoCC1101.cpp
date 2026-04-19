@@ -1,11 +1,16 @@
 /*
  * Author: Klusjesman, modified bij supersjimmie for Arduino/ESP8266
+ * Refactored as ESPHome external component
  */
 
 #include "IthoCC1101.h"
 #include <string.h>
 #include <Arduino.h>
 #include <SPI.h>
+
+namespace esphome::ithoc1101 {
+
+static const char *TAG = "ithoc1101.component";
 
 // default constructor
 IthoCC1101::IthoCC1101(uint8_t counter, uint8_t sendTries) : CC1101()
@@ -55,6 +60,28 @@ IthoCC1101::IthoCC1101(uint8_t counter, uint8_t sendTries) : CC1101()
 IthoCC1101::~IthoCC1101()
 {
 } //~IthoCC1101
+
+void IthoCC1101::setup() {
+	ESP_LOGI(TAG, "Setting up ITHO CC1101 component");
+	this->init();
+	this->initReceive();
+	ESP_LOGI(TAG, "ITHO CC1101 initialized successfully");
+}
+
+void IthoCC1101::loop() {
+	// Check for new incoming packets from the ITHO device
+	if (this->checkForNewPacket()) {
+		IthoPacket packet = this->getLastPacket();
+		ESP_LOGI(TAG, "Received command: %d, counter: %d, RSSI: %d", 
+			packet.command, packet.counter, this->ReadRSSI());
+	}
+}
+
+void IthoCC1101::dump_config() {
+	ESP_LOGCONFIG(TAG, "ITHO CC1101 Component:");
+	ESP_LOGCONFIG(TAG, "  Current counter: %d", this->getLastCounter());
+	ESP_LOGCONFIG(TAG, "  Send tries: %d", this->sendTries);
+}
 
 void IthoCC1101::initSendMessage1()
 {
@@ -1004,3 +1031,6 @@ String IthoCC1101::getLastMessage2str(bool ashex) {
     }
     return str;
 }
+
+}  // namespace esphome::ithoc1101
+

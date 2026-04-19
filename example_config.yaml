@@ -1,0 +1,28 @@
+# Example ESPHome configuration for ITHO CC1101 component
+
+esphome:
+  name: itho-fan-controller
+  platform: ESP8266
+  board: d1_mini
+
+# Logging
+logger:
+  level: DEBUG
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+external_components:
+  - source: github://yourusername/ESPHome_ITHO_Eco_Fan_CC1101
+    components: [ithoc1101]
+
+# ITHO CC1101 component configuration
+ithoc1101:
+  counter: 0        # Initial counter value (0-255)
+  send_tries: 3     # Number of send retries (1-10)

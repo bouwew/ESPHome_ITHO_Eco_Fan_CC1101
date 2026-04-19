@@ -1,10 +1,11 @@
 /*
  * Author: Klusjesman, modified bij supersjimmie for Arduino/ESP8266
+ * Refactored as ESPHome external component
  */
 
-#ifndef ITHOPACKET_H_
-#define ITHOPACKET_H_
+#pragma once
 
+namespace esphome::ithoc1101 {
 
 enum IthoMessageType
  {
@@ -52,5 +53,5 @@ class IthoPacket
 		uint8_t counter;		//0-255, counter is increased on every remote button press
 };
 
+}  // namespace esphome::ithoc1101
 
-#endif /* ITHOPACKET_H_ */

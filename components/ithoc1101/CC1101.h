@@ -1,13 +1,15 @@
 /*
  * Author: Klusjesman, modified bij supersjimmie for Arduino/ESP8266
+ * Refactored as ESPHome external component
  */
 
-#ifndef __CC1101_H__
-#define __CC1101_H__
+#pragma once
 
 #include <stdio.h>
 #include "CC1101Packet.h"
 #include <SPI.h>
+
+namespace esphome::ithoc1101 {
 // On Arduino, SPI pins are predefined
 
 /*	Type of transfers */
@@ -204,4 +206,4 @@ class CC1101
 		
 }; //CC1101
 
-#endif //__CC1101_H__
+}  // namespace esphome::ithoc1101
